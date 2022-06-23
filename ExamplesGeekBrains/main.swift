@@ -1,26 +1,34 @@
 //
 //  Developer -> main.swift
 //  Created by Shamil Aglarov on 24.06.2022.
-//  Theme Generics: Example - 01
+//  Theme Generics: Example - 02
 //
 import Foundation
 
-struct Storage<T> {
+protocol StorageIdentifiable {
+    var id: String { get }
+}
+
+struct Storage<T: StorageIdentifiable> {
     var elements: [String: T] = [:]
     
-    mutating func setElement(_ element: T, for key: String) {
-        elements[key] = element
+    mutating func setElement(_ element: T) {
+        elements[element.id] = element
     }
     
-    mutating func getElement(for key: String) -> T? {
-        return elements[key]
+    mutating func getElement(by id: String) -> T? {
+        return elements[id]
     }
 }
 
-var storage = Storage<Int>()
+struct Book: StorageIdentifiable {
+    let id: String
+    let title: String
+}
 
-storage.setElement(33, for: "Shamil")
-storage.setElement(30, for: "Kurban")
+let book = Book(id: "1", title: "Книга Усова Swift")
+var storage = Storage<Book>()
 
-print(storage.getElement(for: "Shamil"))
-print(storage.getElement(for: "Kurban"))
+storage.setElement(book)
+
+print(storage.getElement(by: "1"))
