@@ -7,5 +7,6 @@
 
 import Foundation
 
-print("Hello, World!")
+let lifeBunny = LifeOfBunny()
 
+lifeBunny.startLifeBunny()
